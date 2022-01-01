@@ -15,28 +15,18 @@ public class JpaMain {
         tx.begin();
 
         try {
-            /* 등록
-            Member member = new Member();
-            member.setId(1L);
-            member.setName("HelloA");
-            em.persist(member);
-            */
-            /*  수정
+            Member member1 = new Member(150L, "A");
+            Member member2 = new Member(160L, "B");
 
-            Member findMember = em.find(Member.class, 1L);
-            findMember.setName("HelloJPA");
-            */
-            List<Member> result = em.createQuery("select m from Member as m ", Member.class)
-                    .setFirstResult(1)
-                    .setMaxResults(2)
-                    .getResultList();
-            for(Member member : result){
-                System.out.println(member.getName());
-            }
+            em.persist(member1);
+            em.persist(member2);
+            System.out.println("============");
+
+            // commit 시점에 db에 insert sql을 보낸다
             tx.commit();
-        }catch (Exception e) {
+        } catch (Exception e) {
             tx.rollback();
-        }finally {
+        } finally {
             // db connection을 물고감
             em.close();
         }

@@ -15,12 +15,11 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member1 = new Member(150L, "A");
-            Member member2 = new Member(160L, "B");
+            Member member = em.find(Member.class, 150L);
+            member.setName("zzzz");
 
-            em.persist(member1);
-            em.persist(member2);
-            System.out.println("============");
+            // 데이터 update 시 persist를 호출하지않아도 update됨
+//            em.persist(member);
 
             // commit 시점에 db에 insert sql을 보낸다
             tx.commit();

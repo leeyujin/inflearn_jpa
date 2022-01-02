@@ -15,11 +15,6 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = em.find(Member.class, 150L);
-            member.setName("zzzz");
-
-            // 데이터 update 시 persist를 호출하지않아도 update됨
-//            em.persist(member);
 
             // commit 시점에 db에 insert sql을 보낸다
             tx.commit();

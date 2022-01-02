@@ -15,6 +15,10 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Member member = new Member();
+            member.setUsername("userB");
+
+            em.persist(member);
 
             // commit 시점에 db에 insert sql을 보낸다
             tx.commit();

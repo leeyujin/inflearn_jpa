@@ -26,6 +26,12 @@ public class Order {
     @OneToMany(mappedBy = "order")
     List<OrderItem> orderItems = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name = "DELIVERY_ID")
+    Delivery delivery;
+
+
+
     public Long getId() {
         return id;
     }

@@ -42,4 +42,10 @@ public class Member {
     public void setTeam(Team team) {
         this.team = team;
     }
+
+    public void changeTeam(Team team) {
+        this.team = team;
+        // member에서 team 세팅 시점에, team에서 Member를 세팅하는 편의메소드 생성
+        team.getMembers().add(this);
+    }
 }

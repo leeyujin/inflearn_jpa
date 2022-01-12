@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Item {
+//@Inheritance(strategy = InheritanceType.JOINED) // default = 단일테이블
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn // DType 생성 - 자식 타입(Album,Movie,Book) 들어감
+// 추상클래스를 붙여줘야 InheritanceType.TABLE_PER_CLASS 일 때 ITEM table이 생성안됨 (붙이지 않으면 해당 클래스 자체를 사용하는 경우가 존재하여 테이블 생성됨)
+public abstract class Item extends BaseEntity{
 
     @Id
     @GeneratedValue
@@ -17,7 +21,8 @@ public class Item {
     private int stockQuantity;
 
     @ManyToMany(mappedBy = "items")
-    List<Category> categories = new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
+
 
     public Long getId() {
         return id;
@@ -50,4 +55,5 @@ public class Item {
     public void setStockQuantity(int stockQuantity) {
         this.stockQuantity = stockQuantity;
     }
+
 }

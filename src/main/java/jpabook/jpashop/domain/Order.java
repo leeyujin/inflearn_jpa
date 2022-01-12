@@ -18,18 +18,24 @@ public class Order {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @OneToOne
+    @JoinColumn(name = "DELIVERY_ID")
+    Delivery delivery;
+
+    @OneToMany(mappedBy = "order")
+    List<OrderItem> orderItems = new ArrayList<>();
+
+
     private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @OneToMany(mappedBy = "order")
-    List<OrderItem> orderItems = new ArrayList<>();
-
-    @OneToOne
-    @JoinColumn(name = "DELIVERY_ID")
-    Delivery delivery;
-
+    public void addOrderItem(OrderItem orderItem) {
+        // 양방향 연관관계
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
 
 
     public Long getId() {
@@ -64,10 +70,6 @@ public class Order {
         this.status = status;
     }
 
-    public void addOrderItem(OrderItem orderItem) {
-        // 양방향 연관관계
-        orderItems.add(orderItem);
-        orderItem.setOrder(this);
-    }
+
 
 }

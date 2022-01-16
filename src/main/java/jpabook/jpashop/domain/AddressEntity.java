@@ -1,9 +1,6 @@
 package jpabook.jpashop.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="ADDRESS")
@@ -13,16 +10,14 @@ public class AddressEntity {
     @GeneratedValue
     private Long id;
 
+    @Embedded
     private Address address;
 
-
-    public AddressEntity() {
-    }
+    public AddressEntity() {}
 
     public AddressEntity(String city, String street, String zipcode) {
         this.address = new Address(city, street, zipcode);
     }
-
 
     public Long getId() {
         return id;

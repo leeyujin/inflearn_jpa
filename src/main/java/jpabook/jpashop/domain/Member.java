@@ -19,6 +19,9 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     List<Order> orderList = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name= "TEAM_ID")
+    private Team team;
 
     public Long getId() {
         return id;
@@ -59,4 +62,21 @@ public class Member extends BaseEntity {
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
 }

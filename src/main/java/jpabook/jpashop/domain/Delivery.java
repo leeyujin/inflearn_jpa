@@ -9,7 +9,7 @@ public class Delivery extends BaseEntity{
     @Column(name="DELIVERY_ID")
     long id;
 
-    @OneToOne(mappedBy = "delivery")
+    @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)
     Order order;
 
     private String city;

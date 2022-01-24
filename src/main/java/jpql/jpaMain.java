@@ -16,31 +16,47 @@ public class jpaMain {
         tx.begin();
         try {
 
+            Team teamA = new Team();
+            teamA.setName("팀A");
+            em.persist(teamA);
+
+            Team teamB = new Team();
+            teamB.setName("팀B");
+            em.persist(teamB);
 
             Member member = new Member();
             member.setUsername("관리자1");
             member.setAge(10);
+            member.setTeam(teamA);
             member.setType(MemberType.ADMIN);
 
             Member member2 = new Member();
             member2.setUsername("관리자2");
             member2.setAge(10);
+            member2.setTeam(teamA);
             member2.setType(MemberType.ADMIN);
+
+            Member member3 = new Member();
+            member3.setUsername("관리자3");
+            member3.setAge(10);
+            member3.setTeam(teamB);
+            member3.setType(MemberType.ADMIN);
 
             em.persist(member);
             em.persist(member2);
+            em.persist(member3);
 
             em.flush();
             em.clear();
 
-            String query = "select function('group_concat', m.username) From Member m"
+            String query = "select t from Team t  "
                     ;
 
-            List<String> resultList = em.createQuery(query,String.class)
+            List<Team> resultList = em.createQuery(query,Team.class)
                     .getResultList();
 
-            for (String s : resultList) {
-                System.out.println("s = " + s);
+            for (Team team : resultList) {
+                System.out.println("s = " + team.getName() + " , " + team.getMembers().size());
             }
 
 

@@ -49,14 +49,11 @@ public class jpaMain {
             em.flush();
             em.clear();
 
-            String query = "select t from Team t  "
-                    ;
-
-            List<Team> resultList = em.createQuery(query,Team.class)
+            List<Member> resultList = em.createNamedQuery("Member.findByUserName", Member.class)
+                    .setParameter("username", "관리자1")
                     .getResultList();
-
-            for (Team team : resultList) {
-                System.out.println("s = " + team.getName() + " , " + team.getMembers().size());
+            for (Member member1 : resultList) {
+                System.out.println("member1 = " + member1);
             }
 
 

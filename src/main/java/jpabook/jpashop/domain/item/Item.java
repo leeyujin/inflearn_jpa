@@ -1,5 +1,6 @@
-package jpabook.jpashop.domain;
+package jpabook.jpashop.domain.item;
 
+import jpabook.jpashop.domain.Category;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,19 +9,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn
-public class Item {
+@Getter
+@Setter
+public abstract class Item {
 
     @Id
     @GeneratedValue
+    @Column(name = "item_id")
     private Long id;
+
+    private String name;
+
     private int price;
+
     private int stockQuantity;
 
-    @ManyToMany
-    @JoinColumn(name = "CATEGORY_ID")
-    List<Category> categories = new ArrayList<>();
+    @ManyToMany(mappedBy = "items")
+    private List<Category> categories = new ArrayList<>();
 }

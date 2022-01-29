@@ -1,12 +1,10 @@
 package jpabook.jpashop.domain;
 
+import jpabook.jpashop.domain.item.Item;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +14,23 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue
+    @Column(name = "category_id")
     private Long id;
 
     private String name;
 
-    @ManyToMany(mappedBy = "categories")
+    @ManyToMany
+    @JoinTable(name="category_item",
+            joinColumns =  @JoinColumn(name = "category_id"), // 중간테이블에 있는 키
+            inverseJoinColumns = @JoinColumn(name="item_id") // 중간테이블의 item쪽으로 들어가는 key
+    )
     private List<Item> items = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Category parent;
+
+    @OneToMany(mappedBy = "parent")
+    private List<Category> child = new ArrayList<>();
 
 }

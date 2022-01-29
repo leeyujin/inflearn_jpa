@@ -1,4 +1,4 @@
-package jpabook.jpashop;
+package jpabook.jpashop.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +15,8 @@ public class Member {
     @Id
     @GeneratedValue
     private Long id;
+
+    private String name;
 
     @Embedded
     private Address address;

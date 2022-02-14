@@ -11,6 +11,7 @@ import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
 import study.datajpa.entity.Team;
 
+import javax.swing.text.html.Option;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -161,5 +162,21 @@ class MemberRepositoryTest {
         for (Member member : result) {
             System.out.println("member = " + member);
         }
+    }
+
+    @Test
+    public void returnType(){
+        Member m1 = new Member("AAA",10);
+        Member m2 = new Member("AAA",20);
+        Member m3 = new Member("BBB",20);
+
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+        memberRepository.save(m3);
+
+        List<Member> listMember = memberRepository.findListByUsername("AAA");
+        Member oneMember = memberRepository.findMemberByUsername("BBB");
+        Optional<Member> optionalMember = memberRepository.findOptionalMemberByUsername("BBB");
+
     }
 }

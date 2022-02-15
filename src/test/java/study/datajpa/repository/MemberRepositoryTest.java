@@ -1,13 +1,11 @@
 package study.datajpa.repository;
 
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +15,6 @@ import study.datajpa.entity.Team;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.swing.text.html.Option;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +33,7 @@ class MemberRepositoryTest {
     TeamRepository teamRepository;
 
     @PersistenceContext
-    EntityManager entityManager;
+    EntityManager em;
 
     @Test
     public void testMember(){
@@ -267,8 +264,8 @@ class MemberRepositoryTest {
         memberRepository.save(member1);
         memberRepository.save(member2);
 
-        entityManager.flush();
-        entityManager.clear();
+        em.flush();
+        em.clear();
 
 //        List<Member> members = memberRepository.findAll();
 //        List<Member> members = memberRepository.findMemberFetchJoin();
@@ -280,6 +277,34 @@ class MemberRepositoryTest {
             System.out.println("member.getTeam().getClass() = " + member.getTeam().getClass());
             System.out.println("member.getTeam().getName() = " + member.getTeam().getName());
         }
+    }
+
+    @Test
+    public void queryHint(){
+        // given
+        Member member1 = new Member("member1", 10);
+        memberRepository.save(member1);
+        em.flush();
+        em.clear();
+
+        //when
+//        Member findMember = memberRepository.findById(member1.getId()).get();
+        Member findMember = memberRepository.findReadOnlyByUsername("member1");
+        findMember.setUsername("member2");
+
+        em.flush();// 변경감지를 위해선 '원본'데이터가 필요하다 -> 메모리가 더 소요됨
+    }
+
+    @Test
+    public void lock(){
+        // given
+        Member member1 = new Member("member1", 10);
+        memberRepository.save(member1);
+        em.flush();
+        em.clear();
+
+        //when
+        List<Member> member11 = memberRepository.findLockByUsername("member1");
     }
 
 
